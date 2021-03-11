@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: convert-notes-bjnelson
+Version: 0.0.1
+Summary: A small package for publishing linked markdown documents to linked htmls
+Home-page: https://github.com/bnel1201/markdown-publish
+Author: Example Author
+Author-email: bnel1201@gmail.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/bnel1201/markdown-publish/issues
+Description: # Note Converter: a simple package for publishing linked markdown into html
+        
+        all files in a directory are converted and markdown links updated to html links similar to org-mode publish
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
