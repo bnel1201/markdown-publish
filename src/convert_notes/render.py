@@ -4,11 +4,12 @@ import subprocess
 import sys
 from shutil import copy2
 from multiprocessing import Pool
+# from functools import partial
 
 style_sheet = Path(__file__).parent / 'pandoc.css'
 
 
-def convert_file(infile, output_ext='.html', update_links=True):
+def convert_file(infile, output_ext='.html', update_links=True, f='markdown', t='html5', extra_args=None):
     outfile = infile.parent / f'{infile.stem}{output_ext}'
     print(infile, '->', outfile)
     with open(infile) as file:
@@ -26,27 +27,24 @@ def convert_file(infile, output_ext='.html', update_links=True):
         file.write(input_string)
     nparents = len(outfile.parents)
     style_loc = f'../'*(nparents-1) + f'{style_sheet.stem}{style_sheet.suffix}'
-    cmd = f'pandoc -s "{tempfile}" -f markdown -t html5 -c {style_loc} -o "{outfile}"'
+    cmd = f'pandoc -s "{tempfile}" -f {f} -t {t} -c {style_loc} -o "{outfile}" --mathjax'
+    if extra_args:
+        cmd += ' '+extra_args
     subprocess.call(cmd)
     os.remove(tempfile)    
     return outfile
 
 
-def convert_all(root_dir='.', ext='.md'):
-    copy2(style_sheet, root_dir)
-    all_files = Path(root_dir).rglob(f'*{ext}')
-    for file in all_files:
-        print(file, '->', convert_file(file))
-
-def convert_all(root_dir='.', ext='.md', pool=False):
+def convert_all(root_dir='.', ext='.md', pool=False, **kwargs):
     copy2(style_sheet, root_dir)
     all_files = Path(root_dir).rglob(f'*{ext}')
     if pool:
         all_files = list(all_files)
         with Pool(5) as p:
-            p.map(convert_file, all_files)
+            p.map(convert_file, all_files, **kwargs)
     else:
-        list(map(convert_file, all_files))
+        [convert_file(file, **kwargs) for file in all_files]
+        # list(map(convert_file, all_files))
 
 
 if __name__ == '__main__':
