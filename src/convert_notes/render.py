@@ -1,16 +1,16 @@
-# %%
 from pathlib import Path
 import os
 import subprocess
 import sys
 from shutil import copy2
+from multiprocessing import Pool
 
 style_sheet = Path(__file__).parent / 'pandoc.css'
 
 
 def convert_file(infile, output_ext='.html', update_links=True):
     outfile = infile.parent / f'{infile.stem}{output_ext}'
-
+    print(infile, '->', outfile)
     with open(infile) as file:
         try:
             input_string = file.read()
@@ -37,7 +37,14 @@ def convert_all(root_dir='.', ext='.md'):
     all_files = Path(root_dir).rglob(f'*{ext}')
     for file in all_files:
         print(file, '->', convert_file(file))
-# %%
+
+def convert_all(root_dir='.', ext='.md'):
+    copy2(style_sheet, root_dir)
+    all_files = list(Path(root_dir).rglob(f'*{ext}'))
+    with Pool(10) as p:
+        p.map(convert_file, all_files)
+
+
 if __name__ == '__main__':
     path = Path('.')
     if len(sys.argv) > 1:
