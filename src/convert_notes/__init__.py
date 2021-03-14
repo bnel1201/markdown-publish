@@ -1,1 +1,1 @@
-from . import render
+from .render import convert_file, convert_all
