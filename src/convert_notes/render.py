@@ -43,6 +43,7 @@ def convert_file(infile, output_ext='.html', update_links=True, f='markdown', t=
         - t: to from format, the output format (same as Pandoc)
         - extra_args: filters, flags, or other arguments to pass to Pandoc e.g. `--citeproc` or `--mathjax`, see <https://pandoc.org/MANUAL.html> for more info
     """
+    infile = Path(infile)
     outfile = infile.parent / f'{infile.stem}{output_ext}'
 
     print(infile, '->', outfile)
