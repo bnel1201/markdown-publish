@@ -22,7 +22,7 @@ setuptools.setup(
     ],
     packages = ['convert_notes'],
     package_dir={'convert_notes': 'src/convert_notes'},
-    package_data={'convert_notes': ['pandoc.css']}
+    package_data={'convert_notes': ['pandoc.css']},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     requires=["fire"]
