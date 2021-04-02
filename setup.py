@@ -20,7 +20,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    packages = ['convert_notes']
+    packages = ['convert_notes'],
     package_dir={'convert_notes': 'src/convert_notes'},
     package_data={'convert_notes': ['pandoc.css']}
     packages=setuptools.find_packages(where="src"),
