@@ -21,7 +21,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     package_dir={'': 'src'},
-    data_files=[('src', ['pandoc.css'])],
+    data_files=[('src', ['convert_notes/pandoc.css'])],
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     requires=["fire"]
