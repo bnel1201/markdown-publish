@@ -19,6 +19,24 @@ def append_relative_path(input_string, file_dir='.', figure_dir='.'):
         return input_string
 
 
+def replace_equation_refs(data):
+    """
+    equation references from <https://github.com/tomduck/pandoc-eqnos> damage docx word files
+    This function removes equation references and replaces them with equation numbers
+    """
+    eqs = re.findall('\{\#eq:.+\}', data)
+    refs = {eq.replace('#', '@'): str(idx+1) for idx,eq in enumerate(eqs)}
+    data_doc = data
+
+    # replace references with numbers
+    for old_eq, new_eq in refs.items():
+        data_doc = data_doc.replace(old_eq, new_eq)
+
+    # remove equation labels which damage the docx file
+    for idx, eq in enumerate(eqs):
+        data_doc = data_doc.replace(eq, f'({idx+1})')
+    return data_doc
+
 def file_to_str(infile):
     with open(infile) as file:
         try:
@@ -57,6 +75,7 @@ def convert_file(infile, output_ext='.html', update_links=True, f='markdown', t=
         # this is only relevant when converting to .docx files to tell them where to find the figures relative 
         # to the working directory where pandoc was called from
         input_string = append_relative_path(input_string, infile.parent, 'figures')
+        input_string = replace_equation_refs(input_string)
 
     tempfile = infile.parent / f'{infile.stem}_temp{infile.suffix}'
     with open(tempfile, 'w') as file:
