@@ -26,6 +26,9 @@ setuptools.setup(
     python_requires=">=3.6",
     requires=[
               'fire',
-              'pandoc_eqnos'
+              'pandoc_eqnos',
+              'pandoc_fignos'
+              'pandoc_tablenos',
+              'pandoc_secnos'
     ]
 )
