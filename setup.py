@@ -24,5 +24,8 @@ setuptools.setup(
     data_files=[('Lib/site-packages/convert_notes', ['src/convert_notes/pandoc.css'])],
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
-    requires=["fire"]
+    requires=[
+              'fire',
+              'pandoc-eqnos'
+    ]
 )
